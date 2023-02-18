@@ -11,10 +11,7 @@ export class UsersService {
     @InjectRepository(UserEntity)
     private readonly usersRepository: Repository<UserEntity>,
   ) {}
-  // async create(createUserDto: CreateUserDto) {
-  //   const user = this.usersRepository.create(createUserDto);
-  //   await user.save();
-  // }
+  
   async findAll() {
     return await this.usersRepository.find({
       select: ['id', 'name', 'email'],
@@ -27,6 +24,7 @@ export class UsersService {
   }
 
   async remove(id:string) {
-    const user = await this.usersRepository.findOneOrFail({ id });
+    const user = await this.usersRepository.findBy ({ id });
+    this.usersRepository.softDelete({ id })
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.users.dto';
 import { UsersService } from './users.service';
 
@@ -11,7 +11,7 @@ export class UsersController {
   }
   @Post()
   async store(@Body() body: CreateUserDto) {
-    return null;
+    return this.usersService.store(body);
   }
   @Put(':id')
   async update() {
@@ -22,7 +22,8 @@ export class UsersController {
     return null;
   }
   @Delete(':id')
-  async delete() {
-    return null;
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async delete(@Param('id', new ParseUUIDPipe()) id: string) {
+    await this.usersService.remove(id);
   }
 }
