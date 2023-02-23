@@ -6,7 +6,9 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: process.env.DB_CONNECTION,
       host: process.env.DB_HOST,
@@ -14,7 +16,7 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [__dirname + '/**/*.entity{.js,.ts}'],
+      entities: [__dirname + '/**/*.entity.ts'],
       synchronize: true,
     } as TypeOrmModuleOptions),
     UsersModule,
